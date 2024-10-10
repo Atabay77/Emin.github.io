@@ -37,23 +37,13 @@
             margin-bottom: 10px;
         }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const images = document.querySelectorAll(".song img");
-            images.forEach(img => {
-                img.onerror = function() {
-                    this.src = "default.jpg"; // Varsayılan resim yolu
-                };
-            });
-        });
-    </script>
 </head>
 <body>
     <h1>Aýdymlar Toplumy</h1>
 
     <div class="song">
         <h2>Hanumankind feat. Kalmi - Big Dawgs</h2>
-        <img src="src=big_dawgs.jpg" alt="Big Dawgs - Hanumankind feat. Kalmi">
+        <img src="big_dawgs.jpg" alt="Big Dawgs - Hanumankind feat. Kalmi">
         <audio controls>
             <source src="Hanumankind feat. Kalmi - Big Dawgs.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
@@ -86,5 +76,20 @@
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
+
+    <script>
+        // Tüm audio öğelerini al
+        const audios = document.querySelectorAll("audio");
+
+        audios.forEach(audio => {
+            audio.addEventListener("play", () => {
+                audios.forEach(otherAudio => {
+                    if (otherAudio !== audio) {
+                        otherAudio.pause(); // Diğer audio öğelerini durdur
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
