@@ -15,80 +15,104 @@
             text-align: center;
         }
         h1 {
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 28px;
+            color: #ffffff;
+            animation: rainbow-text 3s linear infinite;
+        }
+        @keyframes rainbow-text {
+            0% { color: #ff0000; }
+            14% { color: #ff7f00; }
+            28% { color: #ffff00; }
+            42% { color: #00ff00; }
+            57% { color: #0000ff; }
+            71% { color: #4b0082; }
+            85% { color: #8b00ff; }
+            100% { color: #ff0000; }
         }
         .song {
             background-color: rgba(255, 255, 255, 0.8);
-            margin: 20px;
-            padding: 15px;
+            margin: 15px;
+            padding: 12px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            max-width: 300px;
-            margin: 20px auto;
+            max-width: 270px;
+            margin: 15px auto;
+            transition: transform 0.2s;
+        }
+        .song.playing {
+            transform: scale(1.1);
         }
         .song h2 {
             color: #333;
+            font-size: 18px;
         }
         .song img {
-            width: 150px;
-            height: 150px;
+            width: 125px;
+            height: 125px;
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+        audio {
+            width: 100%;
+            max-width: 220px;
+            height: 32px;
         }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const audios = document.querySelectorAll("audio");
-            audios.forEach(audio => {
-                audio.addEventListener("play", function() {
-                    audios.forEach(otherAudio => {
-                        if (otherAudio !== audio) {
-                            otherAudio.pause();
-                        }
-                    });
-                });
-            });
-        });
-    </script>
 </head>
 <body>
     <h1>Aýdymlar Toplumy</h1>
 
-    <div class="song">
+    <div class="song" id="song1">
         <h2>Hanumankind feat. Kalmi - Big Dawgs</h2>
         <img src="src=big_dawgs.jpg" alt="Big Dawgs - Hanumankind feat. Kalmi">
-        <audio controls>
+        <audio controls onplay="playOnlyOne(this)">
             <source src="Hanumankind feat. Kalmi - Big Dawgs.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
 
-    <div class="song">
+    <div class="song" id="song2">
         <h2>Stuff Дживанши</h2>
         <img src="IMG_20241010_173241.jpg" alt="Stuff Дживанши">
-        <audio controls>
+        <audio controls onplay="playOnlyOne(this)">
             <source src="Stuff Дживанши.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
 
-    <div class="song">
+    <div class="song" id="song3">
         <h2>RD12 - Se Paciente Funk</h2>
         <img src="IMG_20241010_173303.jpg" alt="RD12 - Se Paciente Funk">
-        <audio controls>
+        <audio controls onplay="playOnlyOne(this)">
             <source src="1723444391_merge.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
 
-    <div class="song">
+    <div class="song" id="song4">
         <h2>Rd12 Python Funk Ft Sayfalse</h2>
         <img src="IMG_20241010_173317.jpg" alt="Rd12 Python Funk Ft Sayfalse">
-        <audio controls>
+        <audio controls onplay="playOnlyOne(this)">
             <source src="Rd12 Python Funk Ft Sayfalse.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
+
+    <script>
+        let currentAudio = null;
+
+        function playOnlyOne(audioElement) {
+            if (currentAudio && currentAudio !== audioElement) {
+                currentAudio.pause();
+                currentAudio.parentElement.classList.remove("playing");
+            }
+            currentAudio = audioElement;
+            audioElement.parentElement.classList.add("playing");
+
+            audioElement.onpause = function() {
+                audioElement.parentElement.classList.remove("playing");
+            };
+        }
+    </script>
 </body>
 </html>
