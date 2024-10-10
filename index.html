@@ -76,5 +76,20 @@
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
+
+    <script>
+        // Tüm audio öğelerini al
+        const audios = document.querySelectorAll("audio");
+
+        audios.forEach(audio => {
+            audio.addEventListener("play", () => {
+                audios.forEach(otherAudio => {
+                    if (otherAudio !== audio) {
+                        otherAudio.pause(); // Diğer audio öğelerini durdur
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
