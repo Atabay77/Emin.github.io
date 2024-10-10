@@ -13,105 +13,96 @@
             background-attachment: fixed;
             color: #333;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         h1 {
-            font-size: 28px;
-            color: #ffffff;
-            animation: rainbow-text 3s linear infinite;
+            color: #fff;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: rgbCycle 3s infinite;
         }
-        @keyframes rainbow-text {
-            0% { color: #ff0000; }
-            14% { color: #ff7f00; }
-            28% { color: #ffff00; }
-            42% { color: #00ff00; }
-            57% { color: #0000ff; }
-            71% { color: #4b0082; }
-            85% { color: #8b00ff; }
-            100% { color: #ff0000; }
+        @keyframes rgbCycle {
+            0% { color: red; }
+            33% { color: green; }
+            66% { color: blue; }
+            100% { color: red; }
         }
         .song {
             background-color: rgba(255, 255, 255, 0.8);
-            margin: 15px;
-            padding: 12px;
+            margin: 20px;
+            padding: 15px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            max-width: 270px;
-            margin: 15px auto;
-            transition: transform 0.2s;
-        }
-        .song.playing {
-            transform: scale(1.1);
+            max-width: 250px;
+            width: 100%;
+            transition: transform 0.3s ease;
         }
         .song h2 {
             color: #333;
-            font-size: 18px;
+            font-size: 1.1em;
         }
         .song img {
-            width: 125px;
-            height: 125px;
+            width: 135px;
+            height: 135px;
             border-radius: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
-        audio {
+        .song audio {
             width: 100%;
-            max-width: 220px;
-            height: 32px;
+        }
+        audio:focus {
+            outline: none;
+        }
+        audio::cue {
+            font-size: 1em;
+        }
+        .song:active {
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <h1>Aýdymlar Toplumy</h1>
-
-    <div class="song" id="song1">
+    <div class="song">
         <h2>Hanumankind feat. Kalmi - Big Dawgs</h2>
-        <img src="src=big_dawgs.jpg" alt="Big Dawgs - Hanumankind feat. Kalmi">
-        <audio controls onplay="playOnlyOne(this)">
+        <img src="big_dawgs.jpg" alt="Big Dawgs - Hanumankind feat. Kalmi">
+        <audio controls onplay="pauseOthers(this)">
             <source src="Hanumankind feat. Kalmi - Big Dawgs.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
-
-    <div class="song" id="song2">
+    <div class="song">
         <h2>Stuff Дживанши</h2>
         <img src="IMG_20241010_173241.jpg" alt="Stuff Дживанши">
-        <audio controls onplay="playOnlyOne(this)">
+        <audio controls onplay="pauseOthers(this)">
             <source src="Stuff Дживанши.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
-
-    <div class="song" id="song3">
+    <div class="song">
         <h2>RD12 - Se Paciente Funk</h2>
         <img src="IMG_20241010_173303.jpg" alt="RD12 - Se Paciente Funk">
-        <audio controls onplay="playOnlyOne(this)">
+        <audio controls onplay="pauseOthers(this)">
             <source src="1723444391_merge.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
-
-    <div class="song" id="song4">
+    <div class="song">
         <h2>Rd12 Python Funk Ft Sayfalse</h2>
         <img src="IMG_20241010_173317.jpg" alt="Rd12 Python Funk Ft Sayfalse">
-        <audio controls onplay="playOnlyOne(this)">
+        <audio controls onplay="pauseOthers(this)">
             <source src="Rd12 Python Funk Ft Sayfalse.mp3" type="audio/mpeg">
             Siziň brauzeriňiz ses tagtany goldamaýar.
         </audio>
     </div>
 
     <script>
-        let currentAudio = null;
-
-        function playOnlyOne(audioElement) {
-            if (currentAudio && currentAudio !== audioElement) {
-                currentAudio.pause();
-                currentAudio.parentElement.classList.remove("playing");
-            }
-            currentAudio = audioElement;
-            audioElement.parentElement.classList.add("playing");
-
-            audioElement.onpause = function() {
-                audioElement.parentElement.classList.remove("playing");
-            };
+        function pauseOthers(currentAudio) {
+            document.querySelectorAll("audio").forEach(audio => {
+                if (audio !== currentAudio) audio.pause();
+            });
         }
     </script>
 </body>
